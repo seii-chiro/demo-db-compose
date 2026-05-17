@@ -1,0 +1,22 @@
+services:
+    db:
+        image: postgres:18.4-alpine
+        restart: unless-stopped
+        ports:
+            - "5446:5432"
+        environment:
+            POSTGRES_DB: ${DB_DATABASE:-sampledb}
+            POSTGRES_USER: ${DB_USERNAME:-postgres}
+            POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+        volumes:
+            - pgdata:/var/lib/postgresql
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        external: true
+        name: app-network
+
+volumes:
+    pgdata:
